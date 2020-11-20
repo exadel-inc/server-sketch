@@ -1,0 +1,18 @@
+<div class="alert alert-danger">
+  <h4>Component Error</h4>
+  <h5>{{= data.message }} (<a href="javascript: void 0;"
+                              onclick="this.parentElement.nextElementSibling.removeAttribute('style');">Show more
+    details</a>)</h5>
+  <div style="display: none">
+    <h6>Details:</h6>
+    <ul>
+      <li><strong>Component: </strong>{{= component.name }}</li>
+      <li><strong>Options: </strong>{{= JSON.stringify(component.options) }}</li>
+    </ul>
+    <div>
+      <h6>Call stack:</h6>
+      <pre>{{= data.stack }} </pre>
+    </div>
+  </div>
+
+</div>

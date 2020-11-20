@@ -1,0 +1,25 @@
+# Ignore IDE and Operating System artifacts
+.idea
+.classpath
+.metadata
+.project
+.settings
+maven-eclipse.xml
+*.iml
+*.ipr
+*.iws
+.DS_Store
+target
+Author
+*.diff
+
+# Temp files
+*.log
+.gitconfig
+.temp/
+node_modules/
+package-lock\.json
+
+# Sonar Related
+.scannerwork
+*sonar*.*

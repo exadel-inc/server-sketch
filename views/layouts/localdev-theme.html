@@ -1,0 +1,105 @@
+---
+layout: ./html5.html
+---
+
+{{##head:
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<style>
+  /** Custom styles **/
+  body {
+    font-size: 14px;
+  }
+
+  main.container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .back-btn {
+    margin: 20px 0;
+  }
+
+  .back-btn a {
+    padding: 0.4rem 5rem;
+  }
+
+  .breadcrumb-container {
+    background-color: #e9ecef;
+  }
+
+  .breadcrumb {
+    padding: .75em 0;
+    margin-bottom: 0;
+  }
+
+  .footer {
+    background-color: #f5f5f5;
+    padding: 15px 0;
+  }
+</style>
+{{= layout.head || '' }}
+#}}
+
+
+{{##body:
+<nav aria-label="Main Navigation" class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{{= page.resolveURL('/' + SERVER_CONFIG.defaultPageUrl) }}">server-sketch</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        {{ let rootPages = page.invokeController('InnerPages', '/'); }}
+
+        {{~ rootPages :innerPage }}
+        <li class="nav-item {{? innerPage.href === page.location.pathname }}active{{?}}">
+          <a class="nav-link" href="{{= page.resolveURL(innerPage.href) }}">{{= innerPage.title }}</a>
+        </li>
+        {{~}}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main role="main" class="container">
+  {{= layout.body }}
+</main>
+
+{{ page.invokeController('Breadcrumbs'); }}
+<nav class="breadcrumb-container" aria-label="breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb">
+      {{~ page._breadcrumbs :crumb:i}}
+      {{? i === page._breadcrumbs.length - 1 }}
+      <li class="breadcrumb-item active">{{= crumb.title }}</li>
+      {{??}}
+      <li class="breadcrumb-item "><a href="{{= page.resolveURL(crumb.href) }}">{{= crumb.title }}</a></li>
+      {{?}}
+      {{~}}
+    </ol>
+  </div>
+</nav>
+
+<footer class="footer">
+  <div class="container">
+    <div class="text-center">
+      <div class="text-muted">© 2020 Exadel, Inc</div>
+      <div class="text-muted">mail: <a href="mailto:dmantsevich@exadel.com">dmantsevich@exadel.com</a></div>
+    </div>
+  </div>
+</footer>
+
+#}}

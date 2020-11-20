@@ -1,0 +1,29 @@
+---
+layout: %%PATH_TO_BUILTIN_VIEWS%%/layouts/localdev-theme.html
+---
+
+{{##body:
+
+<h1 class="text-center">{{= page.getPageTitle(layout.title) || 'Home' }}</h1>
+
+<hr/>
+{{ let childPages = page.invokeController('InnerPages', page.location.pathname); }}
+{{? childPages && childPages.length }}
+<ul class="nav flex-column">
+  {{~ childPages :childPage}}
+  <li class="nav-item">
+    <a href="{{= page.resolveURL(childPage.href) }}" class="nav-link">
+      {{= childPage.title }}
+    </a>
+  </li>
+  {{~}}
+</ul>
+{{??}}
+<h5>No pages</h5>
+{{?}}
+
+<hr/>
+
+{{= partial('./partials/back-button.html') }}
+
+#}}

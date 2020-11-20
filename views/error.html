@@ -1,0 +1,14 @@
+---
+layout: %%PATH_TO_BUILTIN_VIEWS%%/layouts/localdev-theme.html
+---
+
+{{##body:
+<h1 class="text-center">Unknown Error</h1>
+<h5>{{= page.data.message }}</h5>
+<hr/>
+<pre>
+  {{= page.data.stack }}
+</pre>
+<hr/>
+{{= partial('./partials/back-button.html') }}
+#}}

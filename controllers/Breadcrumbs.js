@@ -34,6 +34,6 @@ module.exports = function () {
           href: '/'
         };
       }
-    }).filter(v => !!v);
+    }).filter(Boolean);
   }
 };

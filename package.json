@@ -42,6 +42,10 @@
   },
   "author": "Dzianis Mantsevich <dmantsevich@exadel.com>",
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/exadel-inc/server-sketch.git"
+  },
   "dependencies": {
     "browser-sync": "^2.26.12",
     "chalk": "^4.1.0",

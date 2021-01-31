@@ -5,7 +5,8 @@
  */
 require('./../config/service').createConfiguration();
 
-const { port, listenDomain } = require('./../config/instance');
+const config = require('./../config/instance');
+const { port, listenDomain } = config;
 const app = require('../lib/app');
 const http = require('http');
 

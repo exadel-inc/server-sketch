@@ -13,7 +13,7 @@ exports.start = (serverConfig = {}) => {
   // Open page. (if enabled browserSync integration, then browserSync will open page)
   if (config.openAfterStart && (!config.browserSync || config.browserSync.open === false)) {
     setTimeout(() => {
-      require('opn')(config.openAfterStart);
+      require('better-opn')(config.openAfterStart);
     }, 500);
   }
 

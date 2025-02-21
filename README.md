@@ -16,14 +16,11 @@ Easy way to quickly [setup](#configuration) and [start server](#how-to-use) for 
 ## How to use
 ### Install
 1) Install **[NodeJs](https://nodejs.org/en/)** (This will also install **npm**)
+   Note minimum required version: **NodeJs 20.x** for server-sketch v1
 2) Create simple *package.json* (`` npm init ``)
 3) Install [@exadel/server-sketch](https://www.npmjs.com/package/@exadel/server-sketch) as dependency for your project (👍):
 ```shell script
 npm i @exadel/server-sketch --save-dev
-```
-4) And CLI [@exadel/server-sketch-cli](https://www.npmjs.com/package/@exadel/server-sketch-cli) (it helps to create demo project) _[optional]_:
-```shell script
-npm i @exadel/server-sketch-cli
 ```
 
  

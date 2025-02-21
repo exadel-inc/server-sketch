@@ -46,6 +46,10 @@
     "type" : "git",
     "url" : "https://github.com/exadel-inc/server-sketch.git"
   },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
   "dependencies": {
     "better-opn": "^3.0.2",
     "browser-sync": "^3.0.3",

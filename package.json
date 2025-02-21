@@ -1,6 +1,6 @@
 {
   "name": "@exadel/server-sketch",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "Fast, flexible & extensible web-server for Component-Based architecture/applications. Easy way to use with AEM (Adobe Experience Manager (TM)). Best for local development. Helps developers quickly provide POC & demo for business. Based on Express server. Supports: file based structure, express server, doT.js templates, components, themes etc.",
   "keywords": [
     "ui",
@@ -43,8 +43,8 @@
   "author": "Dzianis Mantsevich <dmantsevich@exadel.com>",
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/exadel-inc/server-sketch.git"
+    "type": "git",
+    "url": "https://github.com/exadel-inc/server-sketch.git"
   },
   "engines": {
     "node": ">=20.0.0",

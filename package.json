@@ -52,12 +52,12 @@
   },
   "dependencies": {
     "better-opn": "^3.0.2",
-    "browser-sync": "^3.0.3",
-    "compression": "^1.8.0",
+    "browser-sync": "^3.0.4",
+    "compression": "^1.8.1",
     "express": "^4.21.2",
     "express-dot-engine": "^1.0.8",
-    "express-http-proxy": "^2.1.1",
-    "glob": "^11.0.1",
+    "express-http-proxy": "^2.1.2",
+    "glob": "^11.0.3",
     "lodash": "^4.17.21"
   }
 }

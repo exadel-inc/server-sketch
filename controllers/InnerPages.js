@@ -17,7 +17,7 @@ module.exports = function (folderPath) {
   return glob.sync('*', {
     cwd: `${config.serverViews}/pages/${folderPath}`, // Get all sub folders and HTML pages
     mark: true
-  }).map((file) => {
+  }).sort().map((file) => {
     if (file.startsWith('_')) {
       return null; // Ignore files, started with "_" (but they are available directly)
     }

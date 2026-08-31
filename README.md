@@ -224,7 +224,9 @@ Only 1 required file is ``config.json``. It should be placed in your component f
 ```  
 #### config.json
 ``config.json`` file reserved properties (see demo project: "/src/demo/header/config.json"):
-- ``view``:*(required)* Path to server side component html template.
+- ``view``:*(required)* Path to server side component template. Supports **two types**, picked automatically by file extension:
+    - ``.html``: [doT.js](#component-view-template) template (default behavior).
+    - ``.jsx``: [React (JSX) component](#react--jsx-component-view) rendered on the server with React SSR.
 - ``controller``:*(optional)* Path to js file with server side logic related with component. File should export object(will be prototype for your component object). ``init()`` function is required, but you can add another methods for you component and then call them in template. See demo project: "/src/demo/header/HeaderController.js". More details & examples: [Extend Component](#extend-component)
 - ``data``:*(optional. deprecated)*. Contains predefined data for component. Better to store data in ``data-***.json`` files.  
 
@@ -304,7 +306,79 @@ Next objects are available in component view:
 - ``data``: Component data. Shortcut for ``component.data``.
 - ``options``: Component init options. Shortcut for ``component.options``.
 - ``partial(data)``: Function to inject HTML from another file.
- 
+
+#### React / JSX component (view)
+Instead of a [doT.js](#component-view-template) template you can point ``config.json > view`` to a ``.jsx`` file. The [component factory](#extend-component) detects the ``.jsx`` extension and renders the component with React (``react-dom/server``) instead of doT.js.
+
+The ``.jsx`` file should export a React component (function or class) — either as an **ESM default export** or via **CommonJS ``module.exports``**. Example:
+
+*/src/my-math/numbers/config.json*
+```json
+{
+  "view": "NumbersView.jsx",
+  "controller": "NumbersController.js"
+}
+```
+
+*/src/my-math/numbers/NumbersView.jsx*
+```jsx
+export default function NumbersView({ data }) {
+  return (
+    <div className="c-numbers">
+      <strong>Positive numbers:</strong> {data.positive.join(', ')}
+    </div>
+  );
+}
+```
+
+By default, the only prop passed to the JSX view is ``data`` (shortcut for ``component.data``, same as in doT.js templates). If you need more (``page``, ``component``, ``config``, ``partial``, or anything custom), override ``buildProps()`` in the component's controller — see below.
+
+**Importing sibling ``.jsx`` files:** a JSX view can ``import`` other ``.jsx`` files (e.g. sub-components) — they're transpiled the same way as the entry view, no extra setup needed.
+
+**Hot reload:** ``.jsx`` view files are re-compiled on every render (no require cache), so changes are applied on the next page refresh — no server restart required. This is different from ``controller`` files, which are cached by Node's ``require()`` and need a restart (see [Extend Component](#extend-component)).
+
+##### Overriding props (via controller)
+A JSX component's controller can override the ``buildProps()`` method to control exactly what's passed to the view as props:
+
+*/src/my-math/numbers/NumbersController.js*
+```js
+module.exports = {
+  init() {
+    // this === component
+  },
+
+  // Called by JsxComponent before rendering; return value becomes the view's props
+  buildProps() {
+    return {
+      data: this.data,
+      page: this._page,
+      component: this,
+      config: this.config,
+      partial: (partialPath, data) => this.partial(partialPath, data)
+    };
+  }
+};
+```
+
+*/src/my-math/numbers/NumbersView.jsx*
+```jsx
+export default function NumbersView({ data, page, component, config, partial }) {
+  return (
+    <div className="c-numbers">
+      <div>
+        <strong>Positive numbers:</strong> {data.positive.join(', ')}
+      </div>
+      <div>
+        <strong>Page URL:</strong> {page.location.pathname}
+      </div>
+      <span dangerouslySetInnerHTML={{ __html: partial('./partial.html') }} />
+    </div>
+  );
+}
+```
+
+**NOTE:** ``partial(path, data)`` runs a **doT** render and returns a raw HTML string — React escapes plain strings, so inject it via ``dangerouslySetInnerHTML`` as shown above.
+
 ### Templates
 Small overview what features can be used in our **[page](#page-template-structure)** & **[component](#component-view-template)** templates(views). Full documentation you can find [here](https://olado.github.io/doT/index.html).
 - ``{{ js_code }}``: Evaluate javascript code on server side. Example: 

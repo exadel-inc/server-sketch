@@ -227,6 +227,7 @@ Only 1 required file is ``config.json``. It should be placed in your component f
 - ``view``:*(required)* Path to server side component template. Supports **two types**, picked automatically by file extension:
     - ``.html``: [doT.js](#component-view-template) template (default behavior).
     - ``.jsx``: [React (JSX) component](#react--jsx-component-view) rendered on the server with React SSR.
+- ``renderer``:*(optional)* Rendering engine override. By default it's picked from the ``view`` file extension (``.html`` → doT.js, ``.jsx`` → React SSR). Set it explicitly (``"renderer": "jsx"`` or ``"renderer": "dot-js"``) to force a specific renderer — it takes precedence over the extension. See [React / JSX component (view)](#react--jsx-component-view).
 - ``controller``:*(optional)* Path to js file with server side logic related with component. File should export object(will be prototype for your component object). ``init()`` function is required, but you can add another methods for you component and then call them in template. See demo project: "/src/demo/header/HeaderController.js". More details & examples: [Extend Component](#extend-component)
 - ``data``:*(optional. deprecated)*. Contains predefined data for component. Better to store data in ``data-***.json`` files.  
 
@@ -308,7 +309,7 @@ Next objects are available in component view:
 - ``partial(data)``: Function to inject HTML from another file.
 
 #### React / JSX component (view)
-Instead of a [doT.js](#component-view-template) template you can point ``config.json > view`` to a ``.jsx`` file. The [component factory](#extend-component) detects the ``.jsx`` extension and renders the component with React (``react-dom/server``) instead of doT.js.
+Instead of a [doT.js](#component-view-template) template you can point ``config.json > view`` at a ``.jsx`` file — the JSX renderer (React SSR via ``react-dom/server``) is selected automatically by the file extension. To force a renderer regardless of the extension, set ``config.json > renderer`` explicitly (e.g. ``"renderer": "jsx"`` or ``"renderer": "dot-js"``); it takes precedence over the extension. Because the renderer is chosen by the base ``Component`` from the component config, projects that extend ``Component`` via ``config.componentClass`` get JSX support automatically — no factory or extra component class required.
 
 The ``.jsx`` file should export a React component (function or class) — either as an **ESM default export** or via **CommonJS ``module.exports``**. Example:
 
@@ -347,7 +348,7 @@ module.exports = {
     // this === component
   },
 
-  // Called by JsxComponent before rendering; return value becomes the view's props
+  // Called by Component before rendering; return value becomes the view's props
   buildProps() {
     return {
       data: this.data,

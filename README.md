@@ -10,7 +10,7 @@ Fast, flexible and extensible web-server (🌐) for [Component-Based](#component
 
 Has possibility to use by front developers as a part of AEM ([Adobe Experience Manager (TM)](https://www.adobe.com/marketing/experience-manager.html)) development process.
 
-Easy way to quickly [setup](#configuration) and [start server](#how-to-use) for frontend developers(🐜), who doesn't want to spend a lot of time to do it ⌚. 
+Easy way to quickly [setup](#configuration) and [start server](#how-to-use) for frontend developers(🐜), who doesn't want to spend a lot of time to do it ⌚.
 
 
 ## How to use
@@ -23,11 +23,11 @@ Easy way to quickly [setup](#configuration) and [start server](#how-to-use) for 
 npm i @exadel/server-sketch --save-dev
 ```
 
- 
+
 ### Quick Start
 1) Create demo project(structure) _[optional]_:
 ```shell script
-npx server-sketch create-demo-project 
+npx server-sketch create-demo-project
 ```
 
 2) Start server:
@@ -35,11 +35,11 @@ npx server-sketch create-demo-project
 npm run server
 ```
 
-3) Easiest! You can make a ☕ :) 
+3) Easiest! You can make a ☕ :)
 
 
 ### Engine
-Project based on [express.js](http://expressjs.com/) web server with simple, but useful middleware. 
+Project based on [express.js](http://expressjs.com/) web server with simple, but useful middleware.
 
 Template engine for pages: [express-dot-engine](https://www.npmjs.com/package/express-dot-engine) with some improvements.
 
@@ -69,8 +69,8 @@ Configuration object should be passed as a first argument into ``.start()`` func
 | &nbsp;&nbsp;&nbsp;``proxy.defaultHost``  | *string / null* | **null** | Default host for "to" params from proxy config [objects](#proxy-rules-object-format) |
 
 #### Proxy rules object format
-- ``from``: *{string}* | *[required]* URL on you local web-server. Example: '/service/books/all.json'.  
-- ``to``: *{string}* | *[required]* Destination URL for request. Example: 'https://my-backend-api-server.com/service/books/all.json'. (both examples: all requests from '/service/books/all.json' will delegated to 'https://my-backend-api-server.com/service/books/all.json')  
+- ``from``: *{string}* | *[required]* URL on your local web-server. Example: '/service/books/all.json'.
+- ``to``: *{string}* | *[required]* Destination URL for request. Example: 'https://my-backend-api-server.com/service/books/all.json'. (both examples: all requests from '/service/books/all.json' will be delegated to 'https://my-backend-api-server.com/service/books/all.json')
 - ``transform(proxyRes, proxyResData)``: *[optional]* Custom response transformer. Should returns transformed data
 - ``transformHeaders(headers)``: *[optional]* Custom response headers transformer. Should returns transformed headers
 
@@ -95,12 +95,12 @@ Configuration object should be passed as a first argument into ``.start()`` func
 
 ### Page
 #### Overview
-All server pages should be placed under : ``server/views/pages/`` 📂. It can be used as a regular HTML page or can be generated using built-in template engine. 
+All server pages should be placed under : ``server/views/pages/`` 📂. It can be used as a regular HTML page or can be generated using built-in template engine.
 
 #### Page template structure
 HTML page structure contains 2 sections:
 
-- **Configuration section**: [YAML](https://yaml.org/) at the top. Configuration object(defined between ---) available as ``layout`` object. **Best practice:** use it for global layout configuration(title, body classes, scripts for injection). Default values better to defined in parent page (layout option). Properties are inheritable. **layout** property is reserved and used for showing what is html page to use as a parent.   
+- **Configuration section**: [YAML](https://yaml.org/) at the top. Configuration object(defined between ---) available as ``layout`` object. **Best practice:** use it for global layout configuration(title, body classes, scripts for injection). Default values better to defined in parent page (layout option). Properties are inheritable. **layout** property is reserved and used for showing what is html page to use as a parent.
     Example:
     ```html
         ---
@@ -109,11 +109,11 @@ HTML page structure contains 2 sections:
         bodyClass: my-page
         myCustomNumbers: [1, 2, 3]
         ---
-        
-        {{##myCustomBlock: 
-            <!-- I will available as "layout.myCustomBlock" -->  
-        #}}  
-    
+
+        {{##myCustomBlock:
+            <!-- I will available as "layout.myCustomBlock" -->
+        #}}
+
         {{##body:
             <h1> {{! layout.title }} </h1>
             <div class="url"> {{= page.location.path }} </div>
@@ -126,11 +126,11 @@ HTML page structure contains 2 sections:
     ```
 - **Definition Blocks Section**: Section with page blocks. **Best Practice:** Split layout with important blocks(see 📂: ``server/views/layouts/`` files). Each block available as property in ``layout`` global object. Example: for previous code ``layout`` object will contain: ``body``, ``myCustomBlock``, ``title``, ``bodyClass``, ``myCustomNumbers`` properties. Minimum 1 definition block (between ``{{##blockName: #}}``) *required*.
 
-Small overview about features you can find in **[Templates](#templates)** section [⏬](#templates). 
+Small overview about features you can find in **[Templates](#templates)** section [⏬](#templates).
 
-#### API: Page object 
+#### API: Page object
 ``page`` object provide properties for current page rendition(request). That object available in all pages under ``server/views/`` 📂 and for each component (in template).
-- ``page.renderComponent(componentName, componentOptions)`` : Render [component](#components) by name with options(returns HTML). Example: ``{{= page.renderComponent('demo/hello-world', { data: 'example1' }) }}`` will render component ``src/demo/hello-world/`` with data ``src/demo/hello-world/data-example1.json`` and pass ``{ data: 'example1' }`` as options. 
+- ``page.renderComponent(componentName, componentOptions)`` : Render [component](#components) by name with options(returns HTML). Example: ``{{= page.renderComponent('demo/hello-world', { data: 'example1' }) }}`` will render component ``src/demo/hello-world/`` with data ``src/demo/hello-world/data-example1.json`` and pass ``{ data: 'example1' }`` as options.
 - ``page.request``: Express [request](https://expressjs.com/en/4x/api.html#req) object
 - ``page.response``: Express [response](https://expressjs.com/en/4x/api.html#res) object
 - ``page.location``: Request url object
@@ -153,12 +153,12 @@ module.exports = function (msg) {
     ++i;
     console.log(`${i}. Page: "${this.location.pathname}". Message: "${msg}"`);
 }
-``` 
+```
 
 ```html
 <!-- your html page /server/views/pages/**/*.html -->
 {{
-    page.invokeController('log', 'Some debug message'); 
+    page.invokeController('log', 'Some debug message');
     page.invokeController('log', 'Another message');
     // see nodejs console
 }}
@@ -175,13 +175,13 @@ module.exports = function () {
         console.log(`${i}. Page: "${this.location.pathname}". Message: "${msg}"`);
     };
 }
-``` 
+```
 
 ```html
 <!-- your html page /server/views/pages/**/*.html -->
 {{
-    page.invokeController('createLogger'); // we extended page with new method ".log(msg)" 
-    page.log('Some debug message'); 
+    page.invokeController('createLogger'); // we extended page with new method ".log(msg)"
+    page.log('Some debug message');
     page.log('Another message');
     // see nodejs console
 }}
@@ -189,7 +189,7 @@ module.exports = function () {
 
 
 ### Components
-All components should be placed under ``src/`` 📂. **Best practice:** Place all files(related with your component) into component folder. No requirements regarding folder structure, but we recommend to use minimum 2 levels: ``src/${groupName}/${componentName}/``. 
+All components should be placed under ``src/`` 📂. **Best practice:** Place all files(related with your component) into component folder. No requirements regarding folder structure, but we recommend to use minimum 2 levels: ``src/${groupName}/${componentName}/``.
 It will help in the future to customize existing components(example: will be created new version of buttons or product cards or new page will be created or redesign existing components 🦄).
 
 #### Component folder structure
@@ -197,10 +197,10 @@ Only 1 required file is ``config.json``. It should be placed in your component f
 ```js
 /server
     start.js <- bootstrap server
-    /static <- folder for static files 
+    /static <- folder for static files
         /images
             ...
-    /middleware <- folder for middleware 
+    /middleware <- folder for middleware
         ...
     /views
         /layouts <- common pages layouts
@@ -217,16 +217,19 @@ Only 1 required file is ``config.json``. It should be placed in your component f
                 ...
             config.json <- JSON file with component configuration. Required.
             data-***.json <- JSON files with predefined data. Helps to prevent copy/paste data between usages. Optional.
-            ${componentName}.html <- Server side component template(component rendition). Any name can be used. See "config.json > view" property. 
+            ${componentName}.html <- Server side component template(component rendition). Any name can be used. See "config.json > view" property.
             ${componentName}Controller.js <- Any server side js logic related with component. Optional.
         /${componentName2}
             ...
-```  
+```
 #### config.json
 ``config.json`` file reserved properties (see demo project: "/src/demo/header/config.json"):
-- ``view``:*(required)* Path to server side component html template.
+- ``view``:*(required)* Path to server side component template. Supports **two types**, picked automatically by file extension:
+    - ``.html``: [doT.js](#component-view-template) template (default behavior).
+    - ``.jsx`` / ``.tsx``: [React (JSX) component](#react--jsx-component-view) rendered on the server with React SSR. TypeScript annotations in ``.tsx`` are stripped at runtime (no type-check).
+- ``renderer``:*(optional)* Rendering engine override. By default it's picked from the ``view`` file extension (``.html`` → doT.js, ``.jsx``/``.tsx`` → React SSR). Set it explicitly (``"renderer": "jsx"`` or ``"renderer": "dot-js"``) to force a specific renderer — it takes precedence over the extension. See [React / JSX component (view)](#react--jsx-component-view).
 - ``controller``:*(optional)* Path to js file with server side logic related with component. File should export object(will be prototype for your component object). ``init()`` function is required, but you can add another methods for you component and then call them in template. See demo project: "/src/demo/header/HeaderController.js". More details & examples: [Extend Component](#extend-component)
-- ``data``:*(optional. deprecated)*. Contains predefined data for component. Better to store data in ``data-***.json`` files.  
+- ``data``:*(optional. deprecated)*. Contains predefined data for component. Better to store data in ``data-***.json`` files.
 
 #### API: Component object
 ``component`` object available in component server side templates. You can extend object with ``controller`` property in ``config.json`` file.
@@ -256,7 +259,7 @@ Controller is a regular js object(prototype), which exported from js file. Path 
 ```json
 {
   "view": "NumbersView.html",
-  "controller": "NumbersController.js" 
+  "controller": "NumbersController.js"
 }
 ```
 
@@ -266,7 +269,7 @@ module.exports = {
     init() {
         // this === component
         // Will be invoked, when component has been created
-        console.log(`"${this.name}" was created.`);         
+        console.log(`"${this.name}" was created.`);
     },
 
     // Extend base component with new functionality
@@ -292,36 +295,108 @@ module.exports = {
 #### Component options
 Any object can be passed. Reserved properties:
 - ``data``: Dataset for component(pre filled data). Can be **string** or **object**. Accessible via ``component.data`` property or ``data`` in [component template](#component-view-template).
-    - ``string``: Dataset will be read from **${componentName}/data-${dataValue}.json** file. You can use **@extend: "path/to/data-parent.json"** notation. It helps to prevent copy-past data between json files. 
+    - ``string``: Dataset will be read from **${componentName}/data-${dataValue}.json** file. You can use **@extend: "path/to/data-parent.json"** notation. It helps to prevent copy-past data between json files.
     - ``object``: Will be used as it is.
 
 #### Component view (template)
-Currently our system allow to use only [doT.js](https://olado.github.io/doT/index.html) templates. Small overview you can find in **[Templates](#templates)** section. 
+Currently our system allow to use only [doT.js](https://olado.github.io/doT/index.html) and ``jsx``/``tsx`` templates. Small overview you can find in **[Templates](#templates)** section.
 
 Next objects are available in component view:
 - ``page``: page object. See: **["API: Page Object"](#api-page-object)** section.
 - ``component``: component object. See: **["API: Component Object"](#api-component-object)** section.
 - ``data``: Component data. Shortcut for ``component.data``.
 - ``options``: Component init options. Shortcut for ``component.options``.
-- ``partial(data)``: Function to inject HTML from another file.
- 
+- ``partial(path, data)``: Function to inject HTML from another file.
+
+#### React / JSX component (view)
+Instead of a [doT.js](#component-view-template) template you can point ``config.json > view`` at a ``.jsx`` or ``.tsx`` file — the JSX renderer (React SSR via ``react-dom/server``) is selected automatically by the file extension. To force a renderer regardless of the extension, set ``config.json > renderer`` explicitly (e.g. ``"renderer": "jsx"`` or ``"renderer": "dot-js"``); it takes precedence over the extension. Because the renderer is chosen by the base ``Component`` from the component config, projects that extend ``Component`` via ``config.componentClass`` get JSX support automatically — no factory or extra component class required.
+
+The ``.jsx`` file should export a React component (function or class) — either as an **ESM default export** or via **CommonJS ``module.exports``**. Example:
+
+*/src/my-math/numbers/config.json*
+```json
+{
+  "view": "NumbersView.jsx",
+  "controller": "NumbersController.js"
+}
+```
+
+*/src/my-math/numbers/NumbersView.jsx*
+```jsx
+export default function NumbersView({ data }) {
+  return (
+    <div className="c-numbers">
+      <strong>Positive numbers:</strong> {data.positive.join(', ')}
+    </div>
+  );
+}
+```
+
+By default, the only prop passed to the JSX view is ``data`` (shortcut for ``component.data``, same as in doT.js templates). If you need more (``page``, ``component``, ``config``, ``partial``, or anything custom), override ``buildProps()`` in the component's controller — see below.
+
+**Importing sibling ``.jsx``/``.tsx`` files:** a JSX view can ``import`` other ``.jsx``/``.tsx`` files (e.g. sub-components) — they're transpiled the same way as the entry view, no extra setup needed.
+
+**TypeScript (``.tsx``):** Type annotations are stripped at runtime by Sucrase (no type-checking), so you can use TypeScript freely — just keep the code type-correct yourself. This applies to the entry view and to sibling imports alike.
+
+##### Overriding props (via controller)
+A JSX component's controller can override the ``buildProps()`` method to control exactly what's passed to the view as props:
+
+*/src/my-math/numbers/NumbersController.js*
+```js
+module.exports = {
+  init() {
+    // this === component
+  },
+
+  // Called by Component before rendering; return value becomes the view's props
+  buildProps() {
+    return {
+      data: this.data,
+      page: this._page,
+      component: this,
+      config: this.config,
+      partial: (partialPath, data) => this.partial(partialPath, data)
+    };
+  }
+};
+```
+
+*/src/my-math/numbers/NumbersView.jsx*
+```jsx
+export default function NumbersView({ data, page, component, config, partial }) {
+  return (
+    <div className="c-numbers">
+      <div>
+        <strong>Positive numbers:</strong> {data.positive.join(', ')}
+      </div>
+      <div>
+        <strong>Page URL:</strong> {page.location.pathname}
+      </div>
+      <span dangerouslySetInnerHTML={{ __html: partial('./partial.html') }} />
+    </div>
+  );
+}
+```
+
+**NOTE:** ``partial(path, data)`` runs a **doT** render and returns a raw HTML string — React escapes plain strings, so inject it via ``dangerouslySetInnerHTML`` as shown above.
+
 ### Templates
 Small overview what features can be used in our **[page](#page-template-structure)** & **[component](#component-view-template)** templates(views). Full documentation you can find [here](https://olado.github.io/doT/index.html).
-- ``{{ js_code }}``: Evaluate javascript code on server side. Example: 
+- ``{{ js_code }}``: Evaluate javascript code on server side. Example:
 ```js
 {{
     let myFileContent = component._getFile('./my-file.txt');
     console.log(`Request to: ${page.request.originalUrl}`);
     const rndm = Math.random() * 1000;
 }}
-```  
-- ``{{= expression }}``: Interpolation. Print expression result. Example: 
+```
+- ``{{= expression }}``: Interpolation. Print expression result. Example:
 ```js
-File content: {{= myFileContent )) 
+File content: {{= myFileContent }}
 Random number: {{= Math.random() }}
 Button component: {{= page.randomComponent('demo/button', { data: { title: 'My button' } }) }}
 ```
-- ``{{! expression }}``: Interpolation with encoding. The same as regular interpolation, but safer(prevent script injection). 
+- ``{{! expression }}``: Interpolation with encoding. The same as regular interpolation, but safer(prevent script injection).
 - ``{{? condition }}``:	Conditionals. Example:
 ```html
 {{? data.image }} <img src="{{= data.image }}" alt="{{= data.alt}}" /> {{?}}
@@ -329,9 +404,9 @@ Button component: {{= page.randomComponent('demo/button', { data: { title: 'My b
     <!-- if: number is bigger than 0.5 -->
 {{??}}
     <!-- else: (0.5 and lower) -->
-{{?}}    
+{{?}}
 ```
-- ``{{~ arrayList :item:index }} ...iteration block... {{~}}``: Array iteration(``arrayList.forEach(function (item, index) { ...iteration block... });``). ``item`` and ``index`` can be any variables. 
+- ``{{~ arrayList :item:index }} ...iteration block... {{~}}``: Array iteration(``arrayList.forEach(function (item, index) { ...iteration block... });``). ``item`` and ``index`` can be any variables.
 ```html
 <ul>
 {{~ ['hello', 'world', 'frontend'] :word:index }}
@@ -378,15 +453,15 @@ TBD
 - [x] Components
 - [x] JSON data for components
 - [x] Controllers
-- [x] OOTB BrowserSync integration 
-- [x] etc. 
+- [x] OOTB BrowserSync integration
+- [x] etc.
 
-### Links 
+### Links
 - [@exadel/server-sketch](https://www.npmjs.com/package/@exadel/server-sketch) | [git](https://github.com/exadel-inc/server-sketch)
 - [@exadel/server-sketch-cli](https://www.npmjs.com/package/@exadel/server-sketch-cli) | [git](https://github.com/exadel-inc/server-sketch-cli)
 - [Exadel Inc. Github](https://github.com/exadel-inc/) | [web-site](https://exadel.com)
 
-🧰 
+🧰
 
 ---
 **Exadel, Inc.**

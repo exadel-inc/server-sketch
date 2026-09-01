@@ -69,8 +69,8 @@ Configuration object should be passed as a first argument into ``.start()`` func
 | &nbsp;&nbsp;&nbsp;``proxy.defaultHost``  | *string / null* | **null** | Default host for "to" params from proxy config [objects](#proxy-rules-object-format) |
 
 #### Proxy rules object format
-- ``from``: *{string}* | *[required]* URL on you local web-server. Example: '/service/books/all.json'.
-- ``to``: *{string}* | *[required]* Destination URL for request. Example: 'https://my-backend-api-server.com/service/books/all.json'. (both examples: all requests from '/service/books/all.json' will delegated to 'https://my-backend-api-server.com/service/books/all.json')
+- ``from``: *{string}* | *[required]* URL on your local web-server. Example: '/service/books/all.json'.
+- ``to``: *{string}* | *[required]* Destination URL for request. Example: 'https://my-backend-api-server.com/service/books/all.json'. (both examples: all requests from '/service/books/all.json' will be delegated to 'https://my-backend-api-server.com/service/books/all.json')
 - ``transform(proxyRes, proxyResData)``: *[optional]* Custom response transformer. Should returns transformed data
 - ``transformHeaders(headers)``: *[optional]* Custom response headers transformer. Should returns transformed headers
 
@@ -299,14 +299,14 @@ Any object can be passed. Reserved properties:
     - ``object``: Will be used as it is.
 
 #### Component view (template)
-Currently our system allow to use only [doT.js](https://olado.github.io/doT/index.html) templates. Small overview you can find in **[Templates](#templates)** section.
+Currently our system allow to use only [doT.js](https://olado.github.io/doT/index.html) and ``jsx``/``tsx`` templates. Small overview you can find in **[Templates](#templates)** section.
 
 Next objects are available in component view:
 - ``page``: page object. See: **["API: Page Object"](#api-page-object)** section.
 - ``component``: component object. See: **["API: Component Object"](#api-component-object)** section.
 - ``data``: Component data. Shortcut for ``component.data``.
 - ``options``: Component init options. Shortcut for ``component.options``.
-- ``partial(data)``: Function to inject HTML from another file.
+- ``partial(path, data)``: Function to inject HTML from another file.
 
 #### React / JSX component (view)
 Instead of a [doT.js](#component-view-template) template you can point ``config.json > view`` at a ``.jsx`` or ``.tsx`` file — the JSX renderer (React SSR via ``react-dom/server``) is selected automatically by the file extension. To force a renderer regardless of the extension, set ``config.json > renderer`` explicitly (e.g. ``"renderer": "jsx"`` or ``"renderer": "dot-js"``); it takes precedence over the extension. Because the renderer is chosen by the base ``Component`` from the component config, projects that extend ``Component`` via ``config.componentClass`` get JSX support automatically — no factory or extra component class required.
@@ -392,7 +392,7 @@ Small overview what features can be used in our **[page](#page-template-structur
 ```
 - ``{{= expression }}``: Interpolation. Print expression result. Example:
 ```js
-File content: {{= myFileContent ))
+File content: {{= myFileContent }}
 Random number: {{= Math.random() }}
 Button component: {{= page.randomComponent('demo/button', { data: { title: 'My button' } }) }}
 ```

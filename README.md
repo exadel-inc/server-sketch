@@ -130,7 +130,8 @@ Small overview about features you can find in **[Templates](#templates)** sectio
 
 #### API: Page object
 ``page`` object provide properties for current page rendition(request). That object available in all pages under ``server/views/`` 📂 and for each component (in template).
-- ``page.renderComponent(componentName, componentOptions)`` : Render [component](#components) by name with options(returns HTML). Example: ``{{= page.renderComponent('demo/hello-world', { data: 'example1' }) }}`` will render component ``src/demo/hello-world/`` with data ``src/demo/hello-world/data-example1.json`` and pass ``{ data: 'example1' }`` as options.
+- ``page.renderComponent(componentName, componentOptions)`` : Render [doT.js component](#components) by name with options(returns HTML). The component's ``config.json > view`` must point to a ``.html`` file. Example: ``{{= page.renderComponent('demo/hello-world', { data: 'example1' }) }}`` will render component ``src/demo/hello-world/`` with data ``src/demo/hello-world/data-example1.json`` and pass ``{ data: 'example1' }`` as options.
+- ``page.renderJsxComponent(componentName, componentOptions)`` : Render [React / JSX component](#react--jsx-component-view) by name with options(returns HTML). The component's ``config.json > view`` must point to a ``.jsx`` or ``.tsx`` file.
 - ``page.request``: Express [request](https://expressjs.com/en/4x/api.html#req) object
 - ``page.response``: Express [response](https://expressjs.com/en/4x/api.html#res) object
 - ``page.location``: Request url object
@@ -224,16 +225,16 @@ Only 1 required file is ``config.json``. It should be placed in your component f
 ```
 #### config.json
 ``config.json`` file reserved properties (see demo project: "/src/demo/header/config.json"):
-- ``view``:*(required)* Path to server side component template. Supports **two types**, picked automatically by file extension:
+- ``view``:*(required)* Path to server side component template. Supports **two types**:
     - ``.html``: [doT.js](#component-view-template) template (default behavior).
     - ``.jsx`` / ``.tsx``: [React (JSX) component](#react--jsx-component-view) rendered on the server with React SSR. TypeScript annotations in ``.tsx`` are stripped at runtime (no type-check).
-- ``renderer``:*(optional)* Rendering engine override. By default it's picked from the ``view`` file extension (``.html`` → doT.js, ``.jsx``/``.tsx`` → React SSR). Set it explicitly (``"renderer": "jsx"`` or ``"renderer": "dot-js"``) to force a specific renderer — it takes precedence over the extension. See [React / JSX component (view)](#react--jsx-component-view).
 - ``controller``:*(optional)* Path to js file with server side logic related with component. File should export object(will be prototype for your component object). ``init()`` function is required, but you can add another methods for you component and then call them in template. See demo project: "/src/demo/header/HeaderController.js". More details & examples: [Extend Component](#extend-component)
 - ``data``:*(optional. deprecated)*. Contains predefined data for component. Better to store data in ``data-***.json`` files.
 
 #### API: Component object
 ``component`` object available in component server side templates. You can extend object with ``controller`` property in ``config.json`` file.
 - ``component.renderComponent(componentName, componentOptions)``: The same as ``page.renderComponent(componentName, componentOptions)``. See: **["API: Page Object"](#api-page-object)** section
+- ``component.renderJsxComponent(componentName, componentOptions)``: The same as ``page.renderJsxComponent(componentName, componentOptions)``. This lets doT.js views render child JSX/TSX components explicitly. See: **["API: Page Object"](#api-page-object)** section
 - ``component.initComponent(componentName, componentOptions)``: The same as ``page.initComponent(componentName, componentOptions)``. See: **["API: Page Object"](#api-page-object)** section
 - ``component.render()``: Generate HTML for component and fill with data.
 - ``component._getFile(filePath)``: Get file content. Path should be *relative* to component folder.
@@ -309,7 +310,7 @@ Next objects are available in component view:
 - ``partial(path, data)``: Function to inject HTML from another file.
 
 #### React / JSX component (view)
-Instead of a [doT.js](#component-view-template) template you can point ``config.json > view`` at a ``.jsx`` or ``.tsx`` file — the JSX renderer (React SSR via ``react-dom/server``) is selected automatically by the file extension. To force a renderer regardless of the extension, set ``config.json > renderer`` explicitly (e.g. ``"renderer": "jsx"`` or ``"renderer": "dot-js"``); it takes precedence over the extension. Because the renderer is chosen by the base ``Component`` from the component config, projects that extend ``Component`` via ``config.componentClass`` get JSX support automatically — no factory or extra component class required.
+Instead of a [doT.js](#component-view-template) template you can point ``config.json > view`` at a ``.jsx`` or ``.tsx`` file and render it with ``page.renderJsxComponent()`` or ``component.renderJsxComponent()``. Use ``renderComponent()`` for ``.html`` doT.js views and ``renderJsxComponent()`` for ``.jsx``/``.tsx`` views; using the wrong method returns a clear error. Because the renderer lives on the base ``Component``, projects that extend ``Component`` via ``config.componentClass`` get JSX support automatically — no factory or extra component class required.
 
 The ``.jsx`` file should export a React component (function or class) — either as an **ESM default export** or via **CommonJS ``module.exports``**. Example:
 
